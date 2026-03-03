@@ -49,3 +49,12 @@ section {
 .form-control::placeholder {
     color: #adb5bd;
 }
+
+footer {
+    background-color: #1a1d20 !important; /* Slightly darker than the contact section */
+}
+
+footer a:hover {
+    color: #0d6efd !important; /* Changes to Bootstrap blue on hover */
+    transition: 0.3s;
+}
