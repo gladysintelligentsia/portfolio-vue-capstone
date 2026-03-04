@@ -1,10 +1,9 @@
 {
-    "capstone":{
-        "liveLink" : "<https://github.com/gladysintelligentsia/webportfolio.git>",
-        "name" : "<Gladys>",
-        "projectTitle": "Full Stack Web Developer Portfolio",
-        "isMulti" : false,
-        "techStack": [
+	"name": "Gladys Ramos",
+	"isSolo": true,
+	"projectTitle": "Full Stack Web Developer Portfolio",
+	"gitHubLink": "https://github.com/gladysintelligentsia/webportfolio.git",
+	"techStack": [
 		"HTML5",
 		"CSS3",
 		"Bootstrap 5",
@@ -16,4 +15,3 @@
 		"Git"
 	]
 }
-    }	
