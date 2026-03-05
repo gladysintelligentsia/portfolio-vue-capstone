@@ -1,17 +1,7 @@
 {
-	"name": "Gladys Ramos",
-	"isSolo": true,
-	"projectTitle": "Full Stack Web Developer Portfolio",
-	"gitHubLink": "https://github.com/gladysintelligentsia/webportfolio.git",
-	"techStack": [
-		"HTML5",
-		"CSS3",
-		"Bootstrap 5",
-		"JavaScript",
-		"Node.js",
-		"Express.js",
-		"MongoDB",
-		"Postman",
-		"Git"
-	]
+    "capstone":{
+        "liveLink" : "https://github.com/gladysintelligentsia/webportfolio.git",
+        "name" : "Gladys",
+        "isMulti" : false
+    }
 }
