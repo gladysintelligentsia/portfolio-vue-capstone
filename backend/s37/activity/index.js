@@ -9,6 +9,7 @@ async function addOneFunc(db) {
             isAvailable: true
         })
     );
+
     return (db);
 };
 
@@ -49,6 +50,7 @@ async function addManyFunc(db) {
             }
         ])
     );
+
     return (db);
 };
 
@@ -67,15 +69,14 @@ function updateOneFunc(db) {
 
 async function replaceOneFunc(db) {
     await (
-        
         db.collection("rooms").replaceOne(
             { name: "queen" },
             {
-                name: "family",
-                accommodates: 4
+                name: "queen",
+                accommodates: 4,
                 price: 4000,
                 description: "A room with a queen sized bed perfect for a simple getaway",
-                rooms_available: 15,
+                rooms_available: 0,
                 isAvailable: false
             }
         )
@@ -84,12 +85,12 @@ async function replaceOneFunc(db) {
 
 async function findOneAndUpdateFunc(db) {
     await (
-        // Updating the "family" room as required by the test details
         db.collection("rooms").findOneAndUpdate(
-            { name: "family" },
+            { name: "queen" },
             { $set: { isAvailable: false } }
         )
     );
+
     return (db)
 }
 
@@ -110,12 +111,11 @@ async function findOneAndDeleteFunc(db) {
 }
 
 async function findName(db) {
-    // Removed the .toArray() inside the parentheses to match template expectations
     return await (
         db.collection("rooms").find(
             { $or: [{ name: { $regex: "s", $options: "i" } }, { name: { $regex: "t", $options: "i" } }] },
             { projection: { name: 1, description: 1, _id: 0 } }
-        )
+        ).toArray()
     );
 };
 
@@ -126,7 +126,7 @@ async function findAccom(db) {
                 { accommodates: { $gt: 2 } },
                 { price: { $lte: 7000 } }
             ]
-        })
+        }).toArray()
     );
 };
 
@@ -140,7 +140,7 @@ async function findNamePrice(db) {
                 ]
             },
             { projection: { name: 1, price: 1, _id: 0 } }
-        )
+        ).toArray()
     );
 };
 
