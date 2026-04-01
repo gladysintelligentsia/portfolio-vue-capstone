@@ -1,56 +1,56 @@
-// 1. PUT route to change the password
-app.put('/change-password', (req, res) => {
-    // Initializing variable as per instructions
-    let message = "User does not exist";
-    const { username, password } = req.body;
+// Sample users array (ensure this is defined in your discussion/index.js)
+let users = [
+    { username: "jdoe0901", password: "@User123" },
+    { username: "janedoe", password: "password123" }
+];
 
-    // Use a loop to iterate over the users array
+// 1. PUT route to change password
+app.put('/change-password', (req, res) => {
+    const { username, password } = req.body;
+    let message = "User does not exist";
+
     for (let i = 0; i < users.length; i++) {
         if (users[i].username === username) {
-            // Change the password property
             users[i].password = password;
-            // Exact message: User (username)'s password has been updated
-            // Note: No period at the end!
-            message = `User ${username}'s password has been updated`;
-            return res.status(200).send(message); 
+            message = `User ${username}'s password has been updated.`;
+            break; 
         }
     }
-    // Return 200 status for "User does not exist" message
-    res.status(200).send(message);
+
+    res.send(message);
 });
 
 // 2. POST route to find a specific user
 app.post('/find-user', (req, res) => {
     const { username } = req.body;
 
-    // Return 400 if username is missing
+    // Check if username is missing in the request body
     if (!username) {
         return res.status(400).send("Username is required in the request body");
     }
 
-    // Use the find method
+    // Use .find() to locate the user
     const foundUser = users.find(user => user.username === username);
 
     if (foundUser) {
-        // Return 200 and the user object as JSON
+        // Return user details as JSON
         res.status(200).json(foundUser);
     } else {
-        // Exact message: User with username "(username)" not found.
-        // Note: This one DOES have a period and quotes around the username.
+        // Return 404 if not found
         res.status(404).send(`User with username "${username}" not found.`);
     }
 });
 
 // 3. DELETE route to remove the last user
 app.delete('/delete-user', (req, res) => {
-    // Check if there are users in the array
+    
     if (users.length > 0) {
+        // Remove the last element
         users.pop();
-        // Return 200 and the updated users array
+        // Return the updated array
         res.status(200).json(users);
     } else {
-        // Exact message: Users collection is empty
-        // Note: No period at the end!
-        res.status(200).send("Users collection is empty");
+        // Return message if empty
+        res.send("Users collection is empty.");
     }
 });
