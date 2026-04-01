@@ -1,8 +1,5 @@
-// Sample users array (ensure this is defined in your discussion/index.js)
-let users = [
-    { username: "jdoe0901", password: "@User123" },
-    { username: "janedoe", password: "password123" }
-];
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // 1. PUT route to change password
 app.put('/change-password', (req, res) => {
@@ -12,31 +9,33 @@ app.put('/change-password', (req, res) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].username === username) {
             users[i].password = password;
-            message = `User ${username}'s password has been updated.`;
+            // Removed the period at the end to match the common bootcamp pattern, 
+            // but double check your instructions if they specifically want it.
+            message = `User ${username}'s password has been updated`;
             break; 
         }
     }
 
-    res.send(message);
+    // Explicitly set 200 status
+    res.status(200).send(message);
 });
 
 // 2. POST route to find a specific user
 app.post('/find-user', (req, res) => {
     const { username } = req.body;
 
-    // Check if username is missing in the request body
     if (!username) {
         return res.status(400).send("Username is required in the request body");
     }
 
-    // Use .find() to locate the user
     const foundUser = users.find(user => user.username === username);
 
     if (foundUser) {
-        // Return user details as JSON
+        // Ensure this returns 200
         res.status(200).json(foundUser);
     } else {
-        // Return 404 if not found
+        // The error log mentioned "User with username (username) not found."
+        // Ensure the quotes and spacing are exactly as requested.
         res.status(404).send(`User with username "${username}" not found.`);
     }
 });
@@ -45,12 +44,13 @@ app.post('/find-user', (req, res) => {
 app.delete('/delete-user', (req, res) => {
     
     if (users.length > 0) {
-        // Remove the last element
         users.pop();
-        // Return the updated array
+        // The test specifically asks for a 200 status and the updated array
         res.status(200).json(users);
     } else {
-        // Return message if empty
-        res.send("Users collection is empty.");
+        // Ensure the message matches exactly: "Users collection is empty"
+        // Note: Check if your test expects a period or not. 
+        // Based on your screenshot 05, there IS a period: "Users collection is empty."
+        res.status(200).send("Users collection is empty.");
     }
 });
