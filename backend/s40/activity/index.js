@@ -6,13 +6,13 @@ app.put('/change-password', (req, res) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].username === username) {
             users[i].password = password;
-            // Exact message: User (username)'s password has been updated
+            // Removed the period at the end as per instructions
             message = `User ${username}'s password has been updated`;
-            return res.status(200).send(message); 
+            // Return early once found with a 200 status
+            return res.status(200).send(message);
         }
     }
-    // Explicitly send 200 even for "not found" as per some activity specs, 
-    // but the logic here matches the instruction flow.
+    // If not found, send the "User does not exist" message with 200
     res.status(200).send(message);
 });
 
@@ -27,11 +27,10 @@ app.post('/find-user', (req, res) => {
     const foundUser = users.find(user => user.username === username);
 
     if (foundUser) {
-        // Return 200 and the JSON object
+        // Explicit 200 status for finding a user
         res.status(200).json(foundUser);
     } else {
-        // Exact message from instructions: User with username "(username)" not found.
-        // Note the double quotes around the username.
+        // Notice the double quotes around the username - very common requirement
         res.status(404).send(`User with username "${username}" not found.`);
     }
 });
