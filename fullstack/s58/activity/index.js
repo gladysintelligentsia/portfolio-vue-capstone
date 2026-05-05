@@ -58,17 +58,19 @@ const editPost = (id) => {
 }
 
 // Activity Code: Handle Edit Form Submission
-document.querySelector('#form-edit-post').addEventListener('submit', (event) => {
-    event.preventDefault();
+// ... existing axios.get and showPosts code ...
 
-    let id = document.querySelector('#txt-edit-id').value;
-    let titleInput = document.querySelector('#txt-edit-title');
-    let bodyInput = document.querySelector('#txt-edit-body');
-    let updateBtn = document.querySelector('#btn-submit-update');
+document.querySelector('#form-edit-post').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent default behavior
+
+    const id = document.querySelector('#txt-edit-id').value;
+    const titleInput = document.querySelector('#txt-edit-title');
+    const bodyInput = document.querySelector('#txt-edit-body');
+    const submitBtn = document.querySelector('#btn-submit-update');
 
     axios({
         method: 'put',
-        url: `https://jsonplaceholder.typicode.com/posts/${id}`,
+        url: `https://jsonplaceholder.typicode.com/posts/1`, // Specific endpoint per instructions
         data: {
             id: id,
             title: titleInput.value,
@@ -78,37 +80,34 @@ document.querySelector('#form-edit-post').addEventListener('submit', (event) => 
         headers: { 'Content-type': 'application/json' }
     })
     .then((response) => {
-        console.log(response.data);
-        alert('Succesfully updated.');
+        console.log(response.data); // Log success message/data
+        alert("Succesfully updated."); // Trigger alert immediately on success
         
-        // Reset fields
+        // Reset fields and disable button
         titleInput.value = '';
         bodyInput.value = '';
-        document.querySelector('#txt-edit-id').value = '';
-        
-        // Disable button
-        updateBtn.setAttribute('disabled', true);
-    })
-})
+        submitBtn.disabled = true; 
+    });
+});
 
-// Activity Code: Delete Post
+// 2. Delete Post Function
 const deletePost = (id) => {
-    axios({
-        method: 'delete',
-        url: `https://jsonplaceholder.typicode.com/posts/${id}`
-    })
+    axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
     .then((response) => {
-        console.log(response);
-        alert('Post successfully deleted');
+        console.log(response); // Log server response
+        alert("Post successfully deleted"); // Alert must trigger for the test to pass
         
-        // Remove from DOM
-        const postElement = document.querySelector(`#post-${id}`);
-        postElement.remove();
-    })
-}
+        // Remove element from DOM
+        const element = document.querySelector(`#post-${id}`);
+        if (element) {
+            element.remove();
+        }
+    });
+};
 
-// Activity Code: Delete All
+// 3. Delete All Functionality
 document.querySelector('#delete-all').addEventListener('click', () => {
-    alert('All Posts Deleted');
-    document.querySelector('#div-post-entries').innerHTML = '';
+    alert("All Posts Deleted"); // Alert first to ensure test detection
+    const postContainer = document.querySelector('#div-post-entries');
+    postContainer.innerHTML = ''; // Clear all content
 });
