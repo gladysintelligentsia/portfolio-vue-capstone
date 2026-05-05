@@ -59,7 +59,7 @@ const editPost = (id) => {
 
 // 1. Handle Form Submissions for Editing Posts
 document.querySelector('#form-edit-post').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent default behavior
+    event.preventDefault(); 
 
     const id = document.querySelector('#txt-edit-id').value;
     const titleInput = document.querySelector('#txt-edit-title');
@@ -68,7 +68,7 @@ document.querySelector('#form-edit-post').addEventListener('submit', (event) => 
 
     axios({
         method: 'put',
-        url: 'https://jsonplaceholder.typicode.com/posts/1', // Specific endpoint per instructions
+        url: 'https://jsonplaceholder.typicode.com/posts/1', 
         data: {
             id: id,
             title: titleInput.value,
@@ -78,15 +78,12 @@ document.querySelector('#form-edit-post').addEventListener('submit', (event) => 
         headers: { 'Content-type': 'application/json' }
     })
     .then((response) => {
-        console.log(response.data); // Access parsed payload via response.data
-        alert("Succesfully updated."); // Exact spelling from instructions
+        console.log(response.data); 
+        alert("Succesfully updated."); // Note the specific spelling "Succesfully"
         
-        // Reset fields
         titleInput.value = '';
         bodyInput.value = '';
         document.querySelector('#txt-edit-id').value = '';
-        
-        // Disable button to prevent multiple submissions
         submitBtn.disabled = true; 
     });
 });
@@ -95,10 +92,9 @@ document.querySelector('#form-edit-post').addEventListener('submit', (event) => 
 const deletePost = (id) => {
     axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
     .then((response) => {
-        console.log(response); // Log the server response
-        alert("Successfully deleted."); // Alert triggered by button click
+        console.log(response); 
+        alert("Successfully deleted."); 
         
-        // Remove the element from the DOM
         const postElement = document.querySelector(`#post-${id}`);
         if (postElement) {
             postElement.remove();
@@ -108,8 +104,6 @@ const deletePost = (id) => {
 
 // 3. Delete All Button Logic
 document.querySelector('#delete-all').addEventListener('click', () => {
-    alert("All Posts Deleted"); // Show alert
-    
-    // Clear all content inside #div-post-entries
+    alert("All Posts Deleted"); 
     document.querySelector('#div-post-entries').innerHTML = '';
 });

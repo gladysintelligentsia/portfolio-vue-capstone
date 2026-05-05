@@ -12,8 +12,7 @@
         <span>Title</span><br>
         <input type="text" id="txt-title"/><br>
         <span>Body</span><br>
-        <!-- Removed type="text" from textarea -->
-        <textarea id="txt-body"></textarea><br>
+        <textarea type="text" id="txt-body"></textarea><br>
         <button type="submit">Create</button>
     </form>
     <hr>
@@ -24,19 +23,16 @@
         <span>Title</span><br>
         <input type="text" id="txt-edit-title"/><br>
         <span>Body</span><br>
-        <!-- Removed type="text" from textarea -->
-        <textarea id="txt-edit-body"></textarea><br>
-        
-        <!-- CRITICAL CHANGE: Removed "disabled" so the button can be clicked -->
-        <button type="submit" id="btn-submit-update">Update</button>
+        <textarea type="text" id="txt-edit-body"></textarea><br>
+        <button type="submit" id="btn-submit-update" disabled>Update</button>
     </form>
 
     <h1>Posts</h1>
+    <!-- The delete-all button must exist for the JS listener to work -->
     <button id="delete-all">Delete All</button>
-    
     <div id="div-post-entries"></div>
 
-    <!-- Axios Script and your index.js -->
+    <!-- Axios Script -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./index.js"></script>
 </body>
