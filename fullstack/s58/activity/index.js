@@ -57,11 +57,9 @@ const editPost = (id) => {
     document.querySelector('#btn-submit-update').removeAttribute('disabled');
 }
 
-// Activity Code: Handle Edit Form Submission
-// ... existing axios.get and showPosts code ...
-
+// 1. Handle Edit Form Submissions
 document.querySelector('#form-edit-post').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent default behavior
+    event.preventDefault(); // it should prevent the default form submission behavior.
 
     const id = document.querySelector('#txt-edit-id').value;
     const titleInput = document.querySelector('#txt-edit-title');
@@ -70,7 +68,7 @@ document.querySelector('#form-edit-post').addEventListener('submit', (event) => 
 
     axios({
         method: 'put',
-        url: `https://jsonplaceholder.typicode.com/posts/1`, // Specific endpoint per instructions
+        url: 'https://jsonplaceholder.typicode.com/posts/1', // specific endpoint per instructions
         data: {
             id: id,
             title: titleInput.value,
@@ -80,34 +78,40 @@ document.querySelector('#form-edit-post').addEventListener('submit', (event) => 
         headers: { 'Content-type': 'application/json' }
     })
     .then((response) => {
-        console.log(response.data); // Log success message/data
-        alert("Succesfully updated."); // Trigger alert immediately on success
+        console.log(response.data); // Axios should handle the response, access parsed payload via response.data
+        alert("Succesfully updated."); // trigger an alert with the message "Succesfully updated."
         
-        // Reset fields and disable button
+        // reset the input fields to empty values
         titleInput.value = '';
         bodyInput.value = '';
+        document.querySelector('#txt-edit-id').value = '';
+        
+        // disable the submit button to prevent multiple submissions
         submitBtn.disabled = true; 
     });
 });
 
-// 2. Delete Post Function
+// 2. Delete Post Method
+// Update our code so that when the deletePost() method is triggered... it should be able to use the Axios method
 const deletePost = (id) => {
     axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
     .then((response) => {
-        console.log(response); // Log server response
-        alert("Post successfully deleted"); // Alert must trigger for the test to pass
+        console.log(response); // Log the server response in the console
+        alert("Post successfully deleted"); // trigger an alert with a message
         
-        // Remove element from DOM
-        const element = document.querySelector(`#post-${id}`);
-        if (element) {
-            element.remove();
+        // remove the element from the DOM by first selecting the element and using the remove() method
+        const postElement = document.querySelector(`#post-${id}`);
+        if (postElement) {
+            postElement.remove();
         }
     });
 };
 
-// 3. Delete All Functionality
+// 3. Delete All Button
+// Attach an event listener so that whenever this button is clicked an alert... is shown
 document.querySelector('#delete-all').addEventListener('click', () => {
-    alert("All Posts Deleted"); // Alert first to ensure test detection
-    const postContainer = document.querySelector('#div-post-entries');
-    postContainer.innerHTML = ''; // Clear all content
+    alert("All Posts Deleted"); // Alert shown
+    
+    // All content inside element with id #div-post-entries must be deleted
+    document.querySelector('#div-post-entries').innerHTML = '';
 });
