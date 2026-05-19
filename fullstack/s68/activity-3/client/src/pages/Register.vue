@@ -1,5 +1,6 @@
 <script setup>
-    import { watch, refs } from 'vue';
+    // Fixed: Changed 'refs' import to 'ref'
+    import { watch, ref } from 'vue'; 
     import { Notyf } from 'notyf';
     import api from '../api.js';
 
@@ -10,11 +11,11 @@
 
     const notyf = new Notyf();
 
-    watch([email,password,confirmPass], (currentValue, oldValue) => {
+    watch([email, password, confirmPass], (currentValue) => {
         if(currentValue.every(input => input !== "") && currentValue[1] === currentValue[2]){
-            isEnabled.value = true
+            isEnabled.value = true;
         } else {
-            isEnabled.value = false
+            isEnabled.value = false;
         }
     });
 
@@ -23,20 +24,16 @@
             let response = await api.post('/users/register', {
                 email: email.value,
                 password: password.value
-            })
+            });
 
             if(response.status === 201) {
-
                 notyf.success(response.data.message);
-
                 email.value = "";
                 password.value = "";
                 confirmPass.value = "";
-
             } else {
                 notyf.error("Registration Failed. Please contact administrator.");
             }
-
         } catch (e) {
             console.error(e);
             notyf.error("Registration Failed. Please contact administrator.");
@@ -81,8 +78,7 @@
             />
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block"  v-if="isEnabled">Register</button>
+        <button type="submit" class="btn btn-primary btn-block" v-if="isEnabled">Register</button>
         <button type="submit" class="btn btn-danger btn-block" disabled v-else>Register</button>
     </form>
-
 </template>
