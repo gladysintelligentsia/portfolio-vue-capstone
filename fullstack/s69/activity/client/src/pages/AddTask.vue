@@ -6,41 +6,45 @@
     import api from '../api.js';
 
     const name = ref("");
-    const description = ref("");
+    const description = ref(""); 
     const isEnabled = ref(false);
 
-    const { notyf } = new Notyf();
-
-    const router = useRouter()
-
+    const notyf = new Notyf();
+    const router = useRouter();
     const { user } = useGlobalStore();
 
-    watch([name,description], (currentValue, oldValue) => {
+    watch([name, description], (currentValue) => {
         if(currentValue.every(input => input !== "")){
-            isEnabled.value = true
+            isEnabled.value = true;
         } else {
-            isEnabled.value = false
+            isEnabled.value = false;
         }
     });
 
     async function handleSubmit(){
         try {
-            let response = await api.post('/games/games', {
+            // Updated to ensure exact JSON content headers and key properties align with schema validation
+            let response = await api.post('/games', {
                 name: name.value,
                 description: description.value
-            })
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
 
-            if(response.status === 201) {
+            if(response.status === 201 || response.status === 200) {
 
-                notyf.success("Task created successfully");
+                notyf.success("Game created successfully");
 
                 name.value = "";
                 description.value = "";
 
-                router.push({path: '/games'})
+                router.push({path: '/games'});
 
             } else {
-                notyf.error("Game Creation Failed. Please contact administrator.");
+                notyf.error("Game Creation Failed. Please check controller properties.");
             }
 
         } catch (e) {
@@ -51,15 +55,15 @@
 
     onBeforeMount(() => {
         if(!user.token){
-            router.push({path: '/'})
+            router.push({path: '/'});
         }
-    })
+    });
 </script>
 
 <template>
     <h1 class="my-5 text-center">Add Game</h1>
 
-    <form v-on:submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit">
         <div class="mb-3">
             <label for="gameName" class="form-label">Name</label>
             <input 
@@ -78,10 +82,9 @@
                 id="gameDescription" 
                 class="form-control" 
                 placeholder="Enter Description" 
-                v-model="desc"
-            >
+                v-model="description" >
         </div>
 
-        <button type="submit" class="btn btn-primary my-4 w-100">Submit</button>
+        <button type="submit" :disabled="!isEnabled" class="btn btn-primary my-4 w-100">Submit</button>
     </form>
 </template>

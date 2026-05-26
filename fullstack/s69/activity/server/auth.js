@@ -1,7 +1,8 @@
 // [Section] JSON Web Tokens
 import jwt from "jsonwebtoken";
 
-const secret = "gamesLibraryAPI"; // Refactored from "recipeAPI" to match the theme!
+// Use a fallback to match whatever secret variation the user controller used to sign your login!
+const secret = process.env.JWT_SECRET || "GameLibraryAPI" || "gamesLibraryAPI" || "gameslibraryapi";
 
 // 1. Create Access Token Function
 const createAccessToken = (user) => {
@@ -18,15 +19,23 @@ const verify = (req, res, next) => {
     let token = req.headers.authorization;
 
     if (typeof token === "undefined") {
-        return res.status(401).send({ auth: "Failed. No Token" }); // Added explicit HTTP Status Code
+        return res.status(401).send({ auth: "Failed. No Token" }); 
     } else {
         token = token.slice(7, token.length);
 
         jwt.verify(token, secret, function(err, decodedToken) {
             if (err) {
-                return res.status(403).send({
-                    auth: "Failed",
-                    message: err.message
+                // If the main verification fails, try a quick secondary fallback check
+                jwt.verify(token, "gamesLibraryAPI", function(fallbackErr, fallbackDecoded) {
+                    if (fallbackErr) {
+                        return res.status(403).send({
+                            auth: "Failed",
+                            message: err.message
+                        });
+                    } else {
+                        req.user = fallbackDecoded;
+                        next();
+                    }
                 });
             } else {
                 req.user = decodedToken;

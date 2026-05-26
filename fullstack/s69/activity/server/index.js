@@ -5,7 +5,7 @@ import gameRoutes from "./routes/game.js";
 import userRoutes from "./routes/user.js";
 
 // Database connection
-mongoose.connect("mongodb://127.0.0.1:27017/gameApp");
+mongoose.connect("mongodb+srv://gladysramos:admin123@cluster0.a3ucxcu.mongodb.net/?appName=Cluster0");
 mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atlas.'));
 
 const app = express();

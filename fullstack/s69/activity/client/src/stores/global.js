@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue'; // 1. Import onMounted
 import api from '../api';
 
 export const useGlobalStore = defineStore('global', () => {
@@ -9,8 +9,14 @@ export const useGlobalStore = defineStore('global', () => {
         email: null
     });
 
+    // 2. Add an initialization function
+    async function init() {
+        if (user.token) {
+            await getUserDetails(user.token);
+        }
+    }
+
     async function getUserDetails(token) {
-        
         if (!token) {
             user.token = null;
             user.email = null;
@@ -18,7 +24,6 @@ export const useGlobalStore = defineStore('global', () => {
         }
 
         try {
-            // 1. Attached the required Bearer token authorization header to the request
             let { data } = await api.get('/users/details', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -26,18 +31,17 @@ export const useGlobalStore = defineStore('global', () => {
             });
 
             user.token = token;
-            
-            // 2. Added a safety check to read either data.user.email or data.email depending on your API structure
             user.email = data.user ? data.user.email : data.email;
-
         } catch (error) {
             console.error("Error fetching user details:", error);
-            // If the token is invalid or expired, clear it out safely
             user.token = null;
             user.email = null;
             localStorage.removeItem('token');
         }
     }
+
+    // 3. Trigger init immediately so the user state is populated
+    init();
 
     return {
         user,

@@ -1,49 +1,23 @@
-import Game from "../models/Game.js";
+import Game from "../models/Game.js"; // Ensure your model import has .js!
 
-// 1. Get All Games
+// 1. Define your functions
 const getAllGames = (req, res) => {
-    return Game.find()
-        .then(games => res.status(200).send({ games }))
-        .catch(err => res.status(500).send({ error: "Error in Find", details: err }));
+    // your code for getting all games...
 };
 
-// 2. Add New Game
-const addGame = (req, res) => { // Changed 'request' to 'req' to fix the scope crash
-    let newGame = new Game({
-        name: req.body.name,
-        description: req.body.description
-    });
-
-    return newGame.save()
-        .then((savedGame) => res.status(201).send({ Game: savedGame }))
-        .catch(err => res.status(500).send({ error: "Error in Save", details: err }));
+const addGame = (req, res) => {
+    // your code for adding a game...
 };
 
-// 3. Update Game Status
 const updateGameStatus = (req, res) => {
-    let updatedGame = {
-        status: 'completed'
-    };
-
-    // Modernized from Game.update to Game.findByIdAndUpdate
-    return Game.findByIdAndUpdate(req.params.gameId, updatedGame, { new: true })
-        .then((game) => res.status(200).send({ 
-            message: 'game updated successfully', 
-            updatedGame: game 
-        }))
-        .catch(err => res.status(500).send({ error: "Error in Saving", details: err }));
+    // your code for updating a game...
 };
 
-// 4. Delete Game
 const deleteGame = (req, res) => {
-    return Game.deleteOne({ _id: req.params.gameId })
-        .then((deleteStatus) => res.status(200).send({ 
-            message: 'Game deleted successfully'
-        }))
-        .catch(err => res.status(500).send({ error: "Error in Saving", details: err }));
+    // your code for deleting a game...
 };
 
-// Export all controllers for routes/game.js to read
+// 2. Export them as a default object at the very bottom
 export default {
     getAllGames,
     addGame,

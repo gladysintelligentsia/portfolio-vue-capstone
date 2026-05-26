@@ -1,23 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const gameSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Game Name is Required']
+        required: [true, "Name is required"]
     },
     description: {
         type: String,
-        required: [true, 'Game Description is Required']
+        required: [true, "Description is required"]
     },
     status: {
         type: String,
-        default: 'Pending'
-    },
-    createdOn: {
-        type: Date,
-        default: Date.now
+        default: "active"
     }
 });
 
-const Game = mongoose.model('Game', gameSchema);
+// Change "Game" to "ActivityGame" right here:
+const Game = mongoose.model("ActivityGame", gameSchema);
 export default Game;
