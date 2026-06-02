@@ -10,7 +10,7 @@
 	const message = ref("");
 	const isLoading = ref(false);
 
-	// 1. YOUR WEB3FORMS ACCESS KEY
+	// 1. Web3Forms Access Key
 	const WEB3FORMS_ACCESS_KEY = "91c0b0e7-58c2-48d8-a99c-f04255e380e5"; 
 
 	// Email subject that will appear when a form submission is received.
@@ -36,7 +36,7 @@
 					"Content-Type": "application/json",
 					Accept: "application/json"
 				},
-				// Included recaptcha_response for Free Tier authentication
+				// Free Tier verification integration parameter
 				body: JSON.stringify({
 					access_key: WEB3FORMS_ACCESS_KEY,
 					subject: subject,
@@ -73,7 +73,7 @@
 
 	/* reCAPTCHA Integration */
 
-	// 2. YOUR GOOGLE RECAPTCHA V2 SITE KEY
+	// 2. Google reCAPTCHA V2 Site Key
 	const SITE_KEY = '6LcySgctAAAAAG39ijQWxZ3P9AqcGre6tWT3EC71';  
 
 	const recaptchaContainer = ref(null);
@@ -165,5 +165,4 @@
 	</template>
 
 <style scoped>
-	/* Clean layout formatting */
 </style>
